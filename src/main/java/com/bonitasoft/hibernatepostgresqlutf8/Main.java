@@ -15,10 +15,13 @@ public class Main {
     public static void main(String[] args) {
     	Configuration c = new Configuration();
     	c.setProperty("hibernate.connection.username", "bonita" );
-    	c.setProperty("hibernate.connection.password", "secret" );
+    	c.setProperty("hibernate.connection.password", "bonita" );
     	c.setProperty("hibernate.connection.driver_class", "org.postgresql.Driver");
     	c.setProperty("hibernate.connection.url", "jdbc:postgresql:test_utf8_locale_fr");
+    	//c.setProperty("hibernate.hbm2ddl.auto", "validate");
     	c.setProperty("hibernate.hbm2ddl.auto", "update");
+    	//org.hibernate.dialect.PostgreSQL9Dialect
+    	c.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
     	
     	c.addAnnotatedClass(MyBusinessObject.class);
     	
@@ -28,13 +31,24 @@ public class Main {
         
         final MyBusinessObject myBusinessObject = new MyBusinessObject();
         myBusinessObject.setaShortString("test");
-        myBusinessObject.setaBigString("veryLongTest voilà quelques caractères avec des accents");
+        myBusinessObject.setaBigString("veryLongTest voilà quelques caractères avec des accents€");
         
         session.beginTransaction();
         session.save(myBusinessObject);
         session.getTransaction().commit();
         
-        final List<MyBusinessObject> businessObjects = session.createCriteria(MyBusinessObject.class).list();
+
+            final MyBusinessObject myBusinessObject2 = new MyBusinessObject();
+            myBusinessObject2.setaShortString("test 2");
+            myBusinessObject2.setaBigString("le deuxième veryLongTest voilà quelques caractères avec des accents€");
+            
+            session.beginTransaction();
+            session.save(myBusinessObject2);
+            session.getTransaction().commit();
+
+        
+
+		final List<MyBusinessObject> businessObjects = session.createCriteria(MyBusinessObject.class).list();
         
         System.out.println("\n----\n");
         System.out.println(MessageFormat.format("Storing {0} business object in the database", businessObjects.size()));

@@ -1,16 +1,28 @@
-plugins {
-    id 'java'
-}
+plugins { id 'java' }
+
+apply plugin:'application'
+
+mainClassName = "com.bonitasoft.hibernatepostgresqlutf8.Main"
 
 dependencies {
 	implementation 'org.hibernate:hibernate-core:4.3.11.Final'
-	
-	implementation 'org.postgresql:postgresql:42.2.5'
+
+	// FAIL
+	//implementation 'org.postgresql:postgresql:9.3-1102-jdbc41'
+	implementation 'org.postgresql:postgresql:9.3-1103-jdbc41'
+	//	implementation 'org.postgresql:postgresql:9.4-1201-jdbc41'
+
+	//implementation 'org.postgresql:postgresql:9.4-1202-jdbc41'
+
+	//OK
+	//implementation 'org.postgresql:postgresql:42.2.5'
 }
+
+
 
 // In this section you declare where to find the dependencies of your project
 repositories {
-    // Use jcenter for resolving your dependencies.
-    // You can declare any Maven/Ivy/file repository here.
-    jcenter()
+	// Use jcenter for resolving your dependencies.
+	// You can declare any Maven/Ivy/file repository here.
+	jcenter()
 }
